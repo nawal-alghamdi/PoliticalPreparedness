@@ -9,7 +9,7 @@ import com.example.android.politicalpreparedness.network.models.Election
 data class UiState(
     val isLoading: Boolean = false,
     val userMessage: String? = null,
-    val electionEvent: ElectionEvent? = null
+    var electionEvent: ElectionEvent? = null
 )
 
 data class ElectionEvent(val election: Election, val isUpcomingElection: Boolean)

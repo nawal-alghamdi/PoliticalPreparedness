@@ -21,7 +21,7 @@ class ElectionsFragment : Fragment() {
 
     private lateinit var binding: FragmentElectionBinding
 
-    // TODO: Declare ViewModel
+    // Declare ViewModel
     private val _viewModel by viewModels<ElectionsViewModel> {
         ElectionsViewModelFactory((requireContext().applicationContext as MyApplication).electionsRepository)
     }
@@ -31,24 +31,22 @@ class ElectionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // TODO: Add ViewModel values and create ViewModel
-        // TODO: Add binding values
+        // Add ViewModel values and create ViewModel
+        // Add binding values
         binding = FragmentElectionBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = _viewModel
 
         // TODO: Link elections to voter info
 
-        // TODO: Initiate recycler adapters
+        // Initiate recycler adapters
         // TODO: Populate recycler adapters
         binding.upcomingRecycler.adapter =
             ElectionListAdapter(ElectionListener {
-                // for now it will navigate and show text message "true"
                 _viewModel.electionClicked(it, true)
             })
 
         binding.SavedRecycler.adapter = ElectionListAdapter(ElectionListener {
-            // for now it will navigate and show text message "false"
             _viewModel.electionClicked(it, false)
         })
 
@@ -65,11 +63,11 @@ class ElectionsFragment : Fragment() {
                     uiState.electionEvent?.let { electionEvent ->
                         findNavController().navigate(
                             ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(
-                                electionEvent.election.id,
-                                electionEvent.election.division,
-                                electionEvent.isUpcomingElection
+                                electionEvent.isUpcomingElection,
+                                electionEvent.election
                             )
                         )
+                        uiState.electionEvent = null
                     }
                 }
         }

@@ -6,5 +6,9 @@
     <string name="upcoming_elections">Upcoming Elections</string>
     <string name="saved_elections">Saved Elections</string>
     <string name="find_my_representatives">Find My Representatives</string>
+    <string name="election_info"><b>Election Information</b></string>
+    <string name="voting_locations"><![CDATA[ <a href="%s">Voting Locations</a> ]]></string>
+    <string name="ballot_info"><![CDATA[ <a href="%s">Ballot Information </a> ]]></string>
+    <string name="mailing_address">Mailing Address</string>
 
 </resources>

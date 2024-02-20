@@ -3,6 +3,7 @@ package com.example.android.politicalpreparedness.repository
 import com.example.android.politicalpreparedness.database.ElectionDao
 import com.example.android.politicalpreparedness.network.CivicsApiService
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.example.android.politicalpreparedness.utils.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -32,4 +33,13 @@ class ElectionsRepository (
         }
     }
 
+    suspend fun getVoterInfo(address: String, electionId: Int) : Result<VoterInfoResponse> {
+        return try {
+            withContext(ioDispatcher) {
+                Result.Success(retrofitService.getVoterInfo(address, electionId))
+            }
+        }catch (ex: Exception) {
+            Result.Error(ex.localizedMessage)
+        }
+    }
 }
