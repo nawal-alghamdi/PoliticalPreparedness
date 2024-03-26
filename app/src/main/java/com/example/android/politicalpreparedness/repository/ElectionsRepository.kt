@@ -8,7 +8,6 @@ import com.example.android.politicalpreparedness.utils.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 /**
  * @Author: nawalalghamdi
@@ -19,16 +18,28 @@ class ElectionsRepository (
     private val retrofitService: CivicsApiService,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO){
 
-    suspend fun getSavedElection() : List<Election> {
+    suspend fun getSavedElection(): List<Election> {
         return electionDao.getElections()
     }
 
-    suspend fun getUpcomingElections() : Result<List<Election>> {
+    suspend fun getSavedElectionById(id: Int): Election? {
+        return electionDao.getElectionById(id)
+    }
+
+    suspend fun deleteElectionById(id: Int) {
+        electionDao.deleteElectionById(id)
+    }
+
+    suspend fun saveElection(election: Election) {
+        electionDao.saveElection(election)
+    }
+
+    suspend fun getUpcomingElections(): Result<List<Election>> {
         return try {
             withContext(ioDispatcher) {
-               Result.Success(retrofitService.getElections().elections)
+                Result.Success(retrofitService.getElections().elections)
             }
-        }catch (ex: Exception) {
+        } catch (ex: Exception) {
             Result.Error(ex.localizedMessage)
         }
     }

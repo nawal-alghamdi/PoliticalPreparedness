@@ -12,4 +12,4 @@ data class UiState(
     var electionEvent: ElectionEvent? = null
 )
 
-data class ElectionEvent(val election: Election, val isUpcomingElection: Boolean)
+data class ElectionEvent(val election: Election)

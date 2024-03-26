@@ -37,17 +37,14 @@ class ElectionsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = _viewModel
 
-        // TODO: Link elections to voter info
-
-        // Initiate recycler adapters
-        // TODO: Populate recycler adapters
+        // Initiate & populate recycler adapters
         binding.upcomingRecycler.adapter =
             ElectionListAdapter(ElectionListener {
-                _viewModel.electionClicked(it, true)
+                _viewModel.electionClicked(it)
             })
 
         binding.SavedRecycler.adapter = ElectionListAdapter(ElectionListener {
-            _viewModel.electionClicked(it, false)
+            _viewModel.electionClicked(it)
         })
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -63,7 +60,6 @@ class ElectionsFragment : Fragment() {
                     uiState.electionEvent?.let { electionEvent ->
                         findNavController().navigate(
                             ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(
-                                electionEvent.isUpcomingElection,
                                 electionEvent.election
                             )
                         )
@@ -74,6 +70,8 @@ class ElectionsFragment : Fragment() {
         return binding.root
     }
 
-    // TODO: Refresh adapters when fragment loads
-
+    override fun onResume() {
+        super.onResume()
+        _viewModel.getSavedElection()
+    }
 }

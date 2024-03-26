@@ -25,13 +25,13 @@ class ElectionsViewModel(
         loadElections()
     }
 
-    //TODO: Create live data val for upcoming elections
+    // Create live data val for upcoming elections
     val upcomingElections = MutableLiveData<List<Election>>()
 
-    //TODO: Create live data val for saved elections
+    // Create live data val for saved elections
     val savedElections = MutableLiveData<List<Election>>()
 
-    //TODO: Create val and functions to populate live data for upcoming elections from the API and saved elections from local database
+    // Create val and functions to populate live data for upcoming elections from the API and saved elections from local database
     private fun loadElections() {
         viewModelScope.launch {
             when (val upcomingElectionResult = electionsRepository.getUpcomingElections()) {
@@ -44,8 +44,13 @@ class ElectionsViewModel(
                         currentUiState.copy(userMessage = upcomingElectionResult.message)
                     }
                 }
-
             }
+        }
+    }
+
+    fun getSavedElection() {
+        viewModelScope.launch {
+            savedElections.value = electionsRepository.getSavedElection()
         }
     }
 
@@ -55,10 +60,10 @@ class ElectionsViewModel(
         }
     }
 
-    //TODO: Create functions to navigate to saved or upcoming election voter info
-    fun electionClicked(election: Election, isUpcomingElection: Boolean) {
+    // Create functions to navigate to saved or upcoming election voter info
+    fun electionClicked(election: Election) {
         _uiState.update { currentUiState ->
-            currentUiState.copy(electionEvent = ElectionEvent(election, isUpcomingElection))
+            currentUiState.copy(electionEvent = ElectionEvent(election))
         }
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- TODO: Add necessary string values -->
+    <!-- Add necessary string values -->
 
     <string name="app_name">Political Preparedness</string>
     <string name="upcoming_elections">Upcoming Elections</string>
@@ -10,5 +10,7 @@
     <string name="voting_locations"><![CDATA[ <a href="%s">Voting Locations</a> ]]></string>
     <string name="ballot_info"><![CDATA[ <a href="%s">Ballot Information </a> ]]></string>
     <string name="mailing_address">Mailing Address</string>
+    <string name="follow_election">Follow Election</string>
+    <string name="unfollow_election">Unfollow Election</string>
 
 </resources>
