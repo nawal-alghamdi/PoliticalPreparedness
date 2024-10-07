@@ -20,4 +20,13 @@
     <string name="city">City</string>
     <string name="zip">Zip</string>
 
+<!--    content descriptions -->
+    <string name="twitter_link_for_the_representative">Twitter link for the representative</string>
+    <string name="facebook_link_for_the_representative">Facebook link for the representative</string>
+    <string name="website_link">Website link</string>
+    <string name="representative_photo">Representative photo</string>
+
+    <string name="this_location_is_not_supported">This location is not supported, please change your location</string>
+    <string name="please_provide_the_address_of_representative">"Please provide the address of representative"</string>
+
 </resources>
