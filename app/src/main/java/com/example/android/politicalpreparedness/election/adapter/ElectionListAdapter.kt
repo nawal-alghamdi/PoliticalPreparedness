@@ -23,16 +23,16 @@ class ElectionListAdapter(private val clickListener: ElectionListener) :
         }
     }
 
-    // TODO: Create ElectionViewHolder
+    // Create ElectionViewHolder
     class ElectionViewHolder(private var itemBinding: ElectionItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        // TODO: Bind ViewHolder
+        // Bind ViewHolder
         fun bind(election: Election) {
             itemBinding.election = election
             itemBinding.executePendingBindings()
         }
 
-        // TODO: Add companion object to inflate ViewHolder (from)
+        // Add companion object to inflate ViewHolder (from)
         companion object {
             fun from(parent: ViewGroup): ElectionViewHolder {
                 val binding = ElectionItemBinding.inflate(
@@ -44,7 +44,7 @@ class ElectionListAdapter(private val clickListener: ElectionListener) :
     }
 
 
-    // TODO: Create ElectionDiffCallback
+    // Create ElectionDiffCallback
     companion object ElectionDiffCallback : DiffUtil.ItemCallback<Election>() {
         override fun areItemsTheSame(oldItem: Election, newItem: Election): Boolean {
             return oldItem === newItem
@@ -57,7 +57,7 @@ class ElectionListAdapter(private val clickListener: ElectionListener) :
 
 }
 
-// TODO: Create ElectionListener
+// Create ElectionListener
 class ElectionListener(val clickListener: (election: Election) -> Unit) {
     fun onClick(election: Election) {
         clickListener(election)

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-//TODO: Construct ViewModel and provide election datasource
+// Construct ViewModel and provide election datasource
 class ElectionsViewModel(
     private val electionsRepository: ElectionsRepository
 ) : ViewModel() {
