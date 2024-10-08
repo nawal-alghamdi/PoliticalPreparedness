@@ -11,6 +11,7 @@ import com.example.android.politicalpreparedness.utils.Result
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class VoterInfoViewModel(
     private val electionsRepository: ElectionsRepository,
@@ -19,7 +20,7 @@ class VoterInfoViewModel(
 
     //Add live data to hold voter info
     val voterInfo = MutableLiveData<State>()
-    private var isElectionSaved: Election? = null
+    private var isElectionSaved: Boolean = false
     private val _followButtonText = MutableSharedFlow<Int>()
     val followButtonText = _followButtonText.asSharedFlow()
 
@@ -34,7 +35,10 @@ class VoterInfoViewModel(
                 is Result.Success -> {
                     voterInfo.value = voterInfoResult.data.state?.firstOrNull()
                 }
-                is Result.Error -> {}
+
+                is Result.Error -> {
+                    Timber.e("voterInfoResult: $voterInfoResult")
+                }
             }
         }
     }
@@ -42,12 +46,14 @@ class VoterInfoViewModel(
     // Add var and methods to save and remove elections to local database
     fun followElectionClicked() {
         viewModelScope.launch {
-            if (isElectionSaved != null) {
+            isElectionSaved = if (isElectionSaved) {
                 electionsRepository.deleteElectionById(election.id)
                 _followButtonText.emit(R.string.follow_election)
+                false
             } else {
                 electionsRepository.saveElection(election)
                 _followButtonText.emit(R.string.unfollow_election)
+                true
             }
         }
     }
@@ -55,11 +61,13 @@ class VoterInfoViewModel(
     // Populate initial state of save button to reflect proper action based on election saved status
     private fun initFollowButtonText() {
         viewModelScope.launch {
-            isElectionSaved = electionsRepository.getSavedElectionById(election.id)
-            if (isElectionSaved != null) {
+            val election = electionsRepository.getSavedElectionById(election.id)
+            if (election != null) {
                 _followButtonText.emit(R.string.unfollow_election)
+                isElectionSaved = true
             } else {
                 _followButtonText.emit(R.string.follow_election)
+                isElectionSaved = false
             }
         }
     }

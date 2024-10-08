@@ -53,7 +53,7 @@ class VoterInfoFragment : Fragment() {
         }
 
         // Populate voter info -- hide views without provided data.
-        val address = "${election.division.state}, ${election.division.country}"
+        val address = "${election.division.state.ifEmpty { "ca" }}, ${election.division.country}"
         _viewModel.getVoterInfo(address, election.id)
 
        _viewModel.voterInfo.observe(viewLifecycleOwner) {
