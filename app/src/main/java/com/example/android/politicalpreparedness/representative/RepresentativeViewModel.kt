@@ -1,7 +1,6 @@
 package com.example.android.politicalpreparedness.representative
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.network.CivicsApi.retrofitService
@@ -10,12 +9,12 @@ import com.example.android.politicalpreparedness.representative.model.Representa
 import com.example.android.politicalpreparedness.utils.Result
 import kotlinx.coroutines.launch
 
-class RepresentativeViewModel : ViewModel() {
+class RepresentativeViewModel(state: SavedStateHandle) : ViewModel() {
 
     // Establish live data for representatives and address
-    private val _representatives = MutableLiveData<List<Representative>>()
+    private val _representatives = state.getLiveData<List<Representative>>(REPRESENTATIVES_STATE_KEY)
     val representatives = _representatives
-    private val _address = MutableLiveData<Address>()
+    private val _address = state.getLiveData<Address>(ADDRESS_STATE_KEY)
     val address = _address
 
     // Create function to fetch representatives from API from a provided address
@@ -51,6 +50,12 @@ class RepresentativeViewModel : ViewModel() {
         zip: String
     ) {
         _address.value = Address(line1, line2, city, state, zip)
+    }
+
+    companion object {
+        private const val REPRESENTATIVES_STATE_KEY: String = "representative_state_key"
+        private const val ADDRESS_STATE_KEY: String = "address_state_key"
+        const val MOTION_LAYOUT_STATE_KEY: String = "motion_layout_state_key"
     }
 
 }

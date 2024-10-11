@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Address
+import com.example.android.politicalpreparedness.representative.RepresentativeViewModel.Companion.MOTION_LAYOUT_STATE_KEY
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.example.android.politicalpreparedness.representative.adapter.setNewValue
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -25,7 +26,7 @@ import com.google.android.gms.location.LocationServices
 import timber.log.Timber
 import java.util.*
 
-class DetailFragment : Fragment() {
+class RepresentativeFragment : Fragment() {
 
     companion object {
         // Add Constant for Location request
@@ -48,6 +49,12 @@ class DetailFragment : Fragment() {
         binding = FragmentRepresentativeBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = _viewModel
+
+        if (savedInstanceState != null) {
+            binding.representativeMotionLayout.transitionToState(
+                savedInstanceState.getInt(MOTION_LAYOUT_STATE_KEY)
+            )
+        }
 
         statesArray = requireContext().resources.getStringArray(R.array.states)
         statesAdapter = ArrayAdapter(
@@ -79,6 +86,11 @@ class DetailFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(MOTION_LAYOUT_STATE_KEY, binding.representativeMotionLayout.currentState)
     }
 
     override fun onRequestPermissionsResult(
@@ -189,7 +201,7 @@ class DetailFragment : Fragment() {
                 true
             } else {
                 Toast.makeText(
-                    this@DetailFragment.context,
+                    this@RepresentativeFragment.context,
                     getString(R.string.please_provide_the_address_of_representative),
                     Toast.LENGTH_SHORT
                 ).show()
