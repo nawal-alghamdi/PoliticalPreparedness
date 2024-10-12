@@ -56,6 +56,7 @@ class RepresentativeViewModel(state: SavedStateHandle) : ViewModel() {
         private const val REPRESENTATIVES_STATE_KEY: String = "representative_state_key"
         private const val ADDRESS_STATE_KEY: String = "address_state_key"
         const val MOTION_LAYOUT_STATE_KEY: String = "motion_layout_state_key"
+        const val IS_KEYBOARD_VISIBLE_KEY: String = "is_keyboard_visible_key"
     }
 
 }

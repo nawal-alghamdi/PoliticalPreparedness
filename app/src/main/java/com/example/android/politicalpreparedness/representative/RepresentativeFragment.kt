@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Address
+import com.example.android.politicalpreparedness.representative.RepresentativeViewModel.Companion.IS_KEYBOARD_VISIBLE_KEY
 import com.example.android.politicalpreparedness.representative.RepresentativeViewModel.Companion.MOTION_LAYOUT_STATE_KEY
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.example.android.politicalpreparedness.representative.adapter.setNewValue
@@ -54,6 +55,11 @@ class RepresentativeFragment : Fragment() {
             binding.representativeMotionLayout.transitionToState(
                 savedInstanceState.getInt(MOTION_LAYOUT_STATE_KEY)
             )
+            if (savedInstanceState.getBoolean(IS_KEYBOARD_VISIBLE_KEY)) {
+                activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+            } else {
+                activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+            }
         }
 
         statesArray = requireContext().resources.getStringArray(R.array.states)
@@ -91,6 +97,10 @@ class RepresentativeFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(MOTION_LAYOUT_STATE_KEY, binding.representativeMotionLayout.currentState)
+        val isKeyboardVisible = requireView().rootWindowInsets?.isVisible(WindowInsets.Type.ime())
+        if (isKeyboardVisible != null) {
+            outState.putBoolean(IS_KEYBOARD_VISIBLE_KEY, isKeyboardVisible)
+        }
     }
 
     override fun onRequestPermissionsResult(
